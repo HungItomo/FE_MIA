@@ -103,10 +103,6 @@ function App() {
   const [error, setError] = useState('');
   const [editingEntry, setEditingEntry] = useState(null);
   const [isMilkModalOpen, setIsMilkModalOpen] = useState(false);
-  const [addButtonPosition, setAddButtonPosition] = useState(null);
-  const [isAddButtonDragging, setIsAddButtonDragging] = useState(false);
-  const addButtonDragRef = useRef(null);
-  const addButtonMovedRef = useRef(false);
   const featureAddActionRef = useRef(null);
   const [goal, setGoal] = useState(() => Number(localStorage.getItem(GOAL_STORAGE_KEY)) || 800);
   const [form, setForm] = useState({ date: today, time: getCurrentTime(), amountMl: '', note: '' });
@@ -172,52 +168,7 @@ function App() {
     if (editingEntry) resetForm();
   };
 
-  const handleAddButtonPointerDown = (event) => {
-    if (event.pointerType === 'mouse' && event.button !== 0) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    addButtonDragRef.current = {
-      pointerId: event.pointerId,
-      startX: event.clientX,
-      startY: event.clientY,
-      startLeft: rect.left,
-      startTop: rect.top,
-      width: rect.width,
-      height: rect.height,
-    };
-    addButtonMovedRef.current = false;
-    event.currentTarget.setPointerCapture?.(event.pointerId);
-    setIsAddButtonDragging(true);
-  };
-
-  const handleAddButtonPointerMove = (event) => {
-    const drag = addButtonDragRef.current;
-    if (!drag || drag.pointerId !== event.pointerId) return;
-
-    const deltaX = event.clientX - drag.startX;
-    const deltaY = event.clientY - drag.startY;
-    if (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4) addButtonMovedRef.current = true;
-    if (!addButtonMovedRef.current) return;
-
-    event.preventDefault();
-    const left = Math.min(Math.max(8, drag.startLeft + deltaX), window.innerWidth - drag.width - 8);
-    const bottomNavSafeSpace = 82;
-    const maxTop = window.innerHeight - drag.height - bottomNavSafeSpace;
-    const top = Math.min(Math.max(8, drag.startTop + deltaY), Math.max(8, maxTop));
-    setAddButtonPosition({ left, top });
-  };
-
-  const handleAddButtonPointerUp = (event) => {
-    if (addButtonDragRef.current?.pointerId !== event.pointerId) return;
-    event.currentTarget.releasePointerCapture?.(event.pointerId);
-    addButtonDragRef.current = null;
-    setIsAddButtonDragging(false);
-  };
-
   const handleAddButtonClick = () => {
-    if (addButtonMovedRef.current) {
-      addButtonMovedRef.current = false;
-      return;
-    }
     if (activeTab === 'milk') openAddModal();
     else featureAddActionRef.current?.();
   };
@@ -448,16 +399,11 @@ function App() {
         {milkForm}
       </Modal>}
       <FloatButton
-        className={`mobile-add-float ${addButtonPosition ? 'is-positioned' : ''} ${isAddButtonDragging ? 'is-dragging' : ''}`}
+        className="mobile-add-float"
         type="primary"
         icon={<PlusOutlined />}
         onClick={handleAddButtonClick}
-        onPointerDown={handleAddButtonPointerDown}
-        onPointerMove={handleAddButtonPointerMove}
-        onPointerUp={handleAddButtonPointerUp}
-        onPointerCancel={handleAddButtonPointerUp}
-        style={addButtonPosition ? { left: `${addButtonPosition.left}px`, top: `${addButtonPosition.top}px`, right: 'auto', bottom: 'auto' } : undefined}
-        tooltip="Chạm để thêm • Kéo để di chuyển"
+        tooltip="Chạm để thêm"
       />
 
       <nav className="bottom-nav" data-active-tab={activeTab} aria-label="Các chức năng của MIA">
