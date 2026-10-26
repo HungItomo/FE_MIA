@@ -21,10 +21,17 @@ button, input, textarea { font-family: inherit; }
 }
 
 .app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   height: auto;
   padding: 24px 32px 16px;
   line-height: normal;
-  background: transparent;
+  background: rgba(245, 241, 233, .82);
+  border-bottom: 1px solid rgba(92, 110, 99, .08);
+  box-shadow: 0 8px 22px rgba(50, 71, 57, .05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .header-inner, .main-content {
@@ -32,8 +39,9 @@ button, input, textarea { font-family: inherit; }
   margin: 0 auto;
 }
 
-.header-inner { display: flex; align-items: center; justify-content: space-between; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; min-height: 40px; }
 .brand-lockup { display: flex; align-items: center; gap: 12px; }
+.brand-lockup > div:last-child { min-width: 0; }
 .brand-mark {
   display: grid;
   place-items: center;
@@ -46,8 +54,8 @@ button, input, textarea { font-family: inherit; }
 }
 .brand-mark .anticon { font-size: 20px; }
 .brand-lockup .ant-typography { margin: 0; }
-.brand-lockup h4 { margin: 3px 0 0; color: #26312f; font-size: 20px; letter-spacing: -.04em; }
-.brand-subtitle { display: block; margin-top: 2px; color: #a0aaa3; font-size: 10px; }
+.brand-lockup h4 { margin: 3px 0 0; color: #26312f; font-size: 20px; letter-spacing: -.04em; line-height: 1.15; }
+.brand-subtitle { display: block; margin-top: 2px; color: #a0aaa3; font-size: 10px; line-height: 1.2; }
 .header-inner .ant-badge-status-text { color: #87928b; font-size: 12px; }
 
 .eyebrow {
@@ -201,8 +209,7 @@ button, input, textarea { font-family: inherit; }
 .feature-heading-copy h1 { margin: 11px 0 10px; color: #26312f; font-family: 'Fraunces', serif; font-size: clamp(34px, 4vw, 48px); font-weight: 500; letter-spacing: -.05em; line-height: 1.08; }
 .feature-heading-copy p { max-width: 560px; margin: 0; color: #7e8982; font-size: 14px; line-height: 1.65; }
 .feature-heading-icon { display: inline-flex; margin-right: 7px; font-size: 13px; }
-.feature-heading-actions { display: grid; grid-template-columns: 42px minmax(220px, 1fr); align-items: center; gap: 11px; min-width: 300px; }
-.feature-heading-actions > .ant-btn { width: 42px; height: 42px; box-shadow: 0 8px 14px rgba(55, 93, 80, .14); }
+.feature-heading-actions { display: flex; align-items: center; min-width: 300px; }
 .feature-date-card { min-width: 0; }
 .feature-summary-card { min-height: 190px; background: linear-gradient(145deg, rgba(255, 249, 235, .95), rgba(255, 237, 224, .75)) !important; }
 .feature-summary-card .ant-card-body { padding: 25px; }
@@ -236,16 +243,17 @@ button, input, textarea { font-family: inherit; }
   .intro-side { width: 100%; }
   .date-card { width: 100%; }
   .desktop-add-button { display: none; }
-  .mobile-add-float { display: block; right: 16px; bottom: 92px; z-index: 1200; }
+  .mobile-add-float { display: block; right: 16px; bottom: 100px !important; z-index: 1200; }
   .milk-modal.ant-modal-root .ant-modal-wrap { display: flex; align-items: flex-end; }
   .milk-modal.ant-modal-root .ant-modal { top: 0; width: 100% !important; max-width: 100%; margin: 0; padding-bottom: 0; }
   .milk-modal .ant-modal-content { border-radius: 24px 24px 0 0; }
   .milk-modal .ant-modal-body { max-height: calc(100vh - 130px); overflow-y: auto; }
   .app-footer { display: none; }
-  .feature-intro { align-items: stretch; flex-direction: column; gap: 18px; margin-bottom: 22px; }
-  .feature-heading-copy h1 { font-size: 38px; }
-  .feature-heading-copy p { font-size: 13px; }
-  .feature-heading-actions { grid-template-columns: 42px 1fr; min-width: 0; }
+  .feature-intro { align-items: stretch; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+  .feature-heading-copy h1 { margin: 6px 0 7px; font-size: 35px; line-height: 1.02; }
+  .feature-heading-copy p { font-size: 12.5px; line-height: 1.48; }
+  .feature-heading-actions { min-width: 0; }
+  .feature-date-card .ant-card-body { gap: 4px; padding: 10px 13px; }
   .feature-heading-actions .feature-date-card { width: 100%; }
   .feature-log-card .ant-card-head { padding: 20px 20px 0; }
   .feature-history-card { margin-top: 0; }
@@ -253,16 +261,22 @@ button, input, textarea { font-family: inherit; }
 }
 
 @media (max-width: 620px) {
-  .app-header { padding-top: 15px; }
+  .app-header { padding-top: 9px; padding-bottom: 8px; }
+  .header-inner { min-height: 40px; justify-content: flex-start; }
   .header-inner .ant-badge { display: none; }
-  .main-content { padding-top: 24px; }
-  .brand-mark { width: 36px; height: 36px; border-radius: 11px; }
-  .brand-mark .anticon { font-size: 18px; }
+  .main-content { padding-top: 16px; }
+  .brand-mark { width: 34px; height: 34px; border-radius: 10px; }
+  .brand-mark .anticon { font-size: 17px; }
   .brand-lockup { gap: 9px; }
-  .brand-lockup h4 { font-size: 17px; }
+  .brand-lockup h4 { margin-top: 2px; font-size: 16px; line-height: 1.1; }
+  .brand-subtitle { margin-top: 2px; font-size: 9px; line-height: 1.1; }
   .intro-copy h1 { margin-top: 9px; font-size: 37px; }
   .intro-copy p { font-size: 13px; }
   .hero-kicker { max-width: 100%; font-size: 9px !important; letter-spacing: .08em; }
+  .feature-intro { gap: 9px; margin-bottom: 14px; }
+  .feature-heading-copy h1 { margin: 5px 0 6px; font-size: 34px; }
+  .feature-heading-copy p { font-size: 12px; line-height: 1.45; }
+  .feature-date-card .field-caption { font-size: 10px; }
   .baby-profile { padding: 13px 14px; }
   .baby-profile-copy h4 { font-size: 13px; }
   .decor-star-one { right: 12%; }

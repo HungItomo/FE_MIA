@@ -107,6 +107,7 @@ function App() {
   const [isAddButtonDragging, setIsAddButtonDragging] = useState(false);
   const addButtonDragRef = useRef(null);
   const addButtonMovedRef = useRef(false);
+  const featureAddActionRef = useRef(null);
   const [goal, setGoal] = useState(() => Number(localStorage.getItem(GOAL_STORAGE_KEY)) || 800);
   const [form, setForm] = useState({ date: today, time: getCurrentTime(), amountMl: '', note: '' });
 
@@ -199,7 +200,9 @@ function App() {
 
     event.preventDefault();
     const left = Math.min(Math.max(8, drag.startLeft + deltaX), window.innerWidth - drag.width - 8);
-    const top = Math.min(Math.max(8, drag.startTop + deltaY), window.innerHeight - drag.height - 8);
+    const bottomNavSafeSpace = 82;
+    const maxTop = window.innerHeight - drag.height - bottomNavSafeSpace;
+    const top = Math.min(Math.max(8, drag.startTop + deltaY), Math.max(8, maxTop));
     setAddButtonPosition({ left, top });
   };
 
@@ -215,11 +218,13 @@ function App() {
       addButtonMovedRef.current = false;
       return;
     }
-    openAddModal();
+    if (activeTab === 'milk') openAddModal();
+    else featureAddActionRef.current?.();
   };
 
   const changeTab = (tab) => {
     setActiveTab(tab);
+    featureAddActionRef.current = null;
     if (tab !== 'milk') setIsMilkModalOpen(false);
   };
 
@@ -427,8 +432,8 @@ function App() {
           </Col>
         </Row>
         </>}
-        {activeTab === 'pump' && <PumpTracker messageApi={messageApi} />}
-        {activeTab === 'sleep' && <SleepTracker messageApi={messageApi} />}
+        {activeTab === 'pump' && <PumpTracker messageApi={messageApi} addActionRef={featureAddActionRef} />}
+        {activeTab === 'sleep' && <SleepTracker messageApi={messageApi} addActionRef={featureAddActionRef} />}
       </Content>
 
       {activeTab === 'milk' && <Modal
@@ -442,7 +447,7 @@ function App() {
       >
         {milkForm}
       </Modal>}
-      {activeTab === 'milk' && <FloatButton
+      <FloatButton
         className={`mobile-add-float ${isAddButtonDragging ? 'is-dragging' : ''}`}
         type="primary"
         icon={<PlusOutlined />}
@@ -453,7 +458,7 @@ function App() {
         onPointerCancel={handleAddButtonPointerUp}
         style={addButtonPosition ? { left: `${addButtonPosition.left}px`, top: `${addButtonPosition.top}px`, right: 'auto', bottom: 'auto' } : undefined}
         tooltip="Chạm để thêm • Kéo để di chuyển"
-      />}
+      />
 
       <nav className="bottom-nav" data-active-tab={activeTab} aria-label="Các chức năng của MIA">
         <span className="bottom-nav-indicator" aria-hidden="true" />

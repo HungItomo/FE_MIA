@@ -94,7 +94,7 @@ function FeatureDatePicker({ selectedDate, onChange }) {
   );
 }
 
-function FeatureHeading({ eyebrow, title, description, icon, selectedDate, onDateChange, onAdd }) {
+function FeatureHeading({ eyebrow, title, description, icon, selectedDate, onDateChange }) {
   return (
     <section className="feature-intro">
       <div className="feature-heading-copy">
@@ -103,14 +103,13 @@ function FeatureHeading({ eyebrow, title, description, icon, selectedDate, onDat
         <Paragraph>{description}</Paragraph>
       </div>
       <div className="feature-heading-actions">
-        <Button type="primary" shape="circle" icon={<PlusOutlined />} onClick={onAdd} aria-label="Thêm bản ghi" />
         <FeatureDatePicker selectedDate={selectedDate} onChange={onDateChange} />
       </div>
     </section>
   );
 }
 
-function PumpTracker({ messageApi }) {
+function PumpTracker({ messageApi, addActionRef }) {
   const today = getLocalDate();
   const [selectedDate, setSelectedDate] = useState(today);
   const [entries, setEntries] = useState([]);
@@ -146,6 +145,7 @@ function PumpTracker({ messageApi }) {
   };
   const openAdd = () => { resetForm(); setError(''); setModalOpen(true); };
   const closeModal = () => { setModalOpen(false); resetForm(); };
+  if (addActionRef) addActionRef.current = openAdd;
 
   const handleSubmit = async () => {
     if (!form.date || !form.time || !form.amountMl) return setError('Bạn hãy nhập ngày, giờ và lượng sữa đã hút.');
@@ -202,7 +202,7 @@ function PumpTracker({ messageApi }) {
   </Form>;
 
   return <div className="feature-view">
-    <FeatureHeading eyebrow="NHẬT KÝ CỦA MẸ" title="Mẹ hút sữa" description="Theo dõi lượng sữa mẹ hút mỗi ngày để nhìn lại nhịp chăm sóc của cả nhà." icon={<ExperimentOutlined />} selectedDate={selectedDate} onDateChange={setSelectedDate} onAdd={openAdd} />
+    <FeatureHeading eyebrow="NHẬT KÝ CỦA MẸ" title="Mẹ hút sữa" description="Theo dõi lượng sữa mẹ hút mỗi ngày để nhìn lại nhịp chăm sóc của cả nhà." icon={<ExperimentOutlined />} selectedDate={selectedDate} onDateChange={setSelectedDate} />
     {error && <Alert className="page-alert" type="error" showIcon message={error} closable onClose={() => setError('')} />}
     <Row gutter={[18, 18]}>
       <Col xs={24} sm={9}><Card className="feature-summary-card card-surface"><Text className="eyebrow">TỔNG HÔM NAY</Text><Statistic value={totalMl} suffix="ml" /><div className="summary-foot"><Tag color="orange">{selectedEntries.length} lần hút</Tag><Text type="secondary">{selectedEntries.length ? Math.round(totalMl / selectedEntries.length) : 0} ml / lần</Text></div></Card></Col>
@@ -213,7 +213,7 @@ function PumpTracker({ messageApi }) {
   </div>;
 }
 
-function SleepTracker({ messageApi }) {
+function SleepTracker({ messageApi, addActionRef }) {
   const today = getLocalDate();
   const [selectedDate, setSelectedDate] = useState(today);
   const [entries, setEntries] = useState([]);
@@ -246,6 +246,7 @@ function SleepTracker({ messageApi }) {
   const resetForm = (date = selectedDate) => { setEditingEntry(null); setForm({ date, startTime: '', endTime: '', note: '' }); };
   const openAdd = () => { resetForm(); setError(''); setModalOpen(true); };
   const closeModal = () => { setModalOpen(false); resetForm(); };
+  if (addActionRef) addActionRef.current = openAdd;
 
   const handleSubmit = async () => {
     if (!form.date || !form.startTime || !form.endTime) return setError('Bạn hãy nhập ngày, giờ bắt đầu và giờ kết thúc.');
@@ -302,7 +303,7 @@ function SleepTracker({ messageApi }) {
   </Form>;
 
   return <div className="feature-view sleep-view">
-    <FeatureHeading eyebrow="NHỊP NGHỈ NGƠI" title="Giấc ngủ của con" description="Ghi lại những giấc ngủ ngắn và dài để hiểu hơn nhịp nghỉ ngơi của bé Mía." icon={<MoonOutlined />} selectedDate={selectedDate} onDateChange={setSelectedDate} onAdd={openAdd} />
+    <FeatureHeading eyebrow="NHỊP NGHỈ NGƠI" title="Giấc ngủ của con" description="Ghi lại những giấc ngủ ngắn và dài để hiểu hơn nhịp nghỉ ngơi của bé Mía." icon={<MoonOutlined />} selectedDate={selectedDate} onDateChange={setSelectedDate} />
     {error && <Alert className="page-alert" type="error" showIcon message={error} closable onClose={() => setError('')} />}
     <Row gutter={[18, 18]}>
       <Col xs={24} sm={9}><Card className="feature-summary-card sleep-summary-card card-surface"><Text className="eyebrow">TỔNG NGỦ HÔM NAY</Text><Statistic value={formatDuration(totalMinutes)} /><div className="summary-foot"><Tag color="blue">{selectedEntries.length} giấc ngủ</Tag><Text type="secondary">Nhật ký nghỉ ngơi</Text></div></Card></Col>
