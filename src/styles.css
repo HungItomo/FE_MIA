@@ -141,7 +141,8 @@ button, input, textarea { font-family: inherit; }
 .section-heading h3 { font-size: 18px; }
 .section-heading .ant-tag { margin: 0; border: 0; border-radius: 99px; padding: 4px 10px; font-size: 11px; font-weight: 700; }
 .desktop-add-button { box-shadow: 0 8px 14px rgba(55, 93, 80, .12); }
-.mobile-add-float { display: none; touch-action: none; user-select: none; cursor: grab; }
+.mobile-add-float { display: none; position: fixed !important; inset-inline-end: 16px !important; right: 16px !important; touch-action: none; user-select: none; cursor: grab; }
+.mobile-add-float.is-positioned { inset-inline-end: auto !important; right: auto !important; bottom: auto !important; }
 .mobile-add-float.is-dragging { cursor: grabbing; opacity: .88; }
 .journal-card .ant-card-body { min-height: 228px; }
 .state-box { display: grid; place-items: center; min-height: 180px; }
@@ -243,7 +244,7 @@ button, input, textarea { font-family: inherit; }
   .intro-side { width: 100%; }
   .date-card { width: 100%; }
   .desktop-add-button { display: none; }
-  .mobile-add-float { display: block; right: 16px; bottom: 100px !important; z-index: 1200; }
+  .mobile-add-float { display: block; bottom: calc(10px + 52px + 12px + env(safe-area-inset-bottom, 0px)) !important; z-index: 1200; }
   .milk-modal.ant-modal-root .ant-modal-wrap { display: flex; align-items: flex-end; }
   .milk-modal.ant-modal-root .ant-modal { top: 0; width: 100% !important; max-width: 100%; margin: 0; padding-bottom: 0; }
   .milk-modal .ant-modal-content { border-radius: 24px 24px 0 0; }
@@ -257,7 +258,7 @@ button, input, textarea { font-family: inherit; }
   .feature-heading-actions .feature-date-card { width: 100%; }
   .feature-log-card .ant-card-head { padding: 20px 20px 0; }
   .feature-history-card { margin-top: 0; }
-  .bottom-nav { bottom: 10px; width: calc(100% - 24px); }
+  .bottom-nav { bottom: calc(10px + env(safe-area-inset-bottom, 0px)); width: calc(100% - 24px); }
 }
 
 @media (max-width: 620px) {

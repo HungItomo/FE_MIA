@@ -448,7 +448,7 @@ function App() {
         {milkForm}
       </Modal>}
       <FloatButton
-        className={`mobile-add-float ${isAddButtonDragging ? 'is-dragging' : ''}`}
+        className={`mobile-add-float ${addButtonPosition ? 'is-positioned' : ''} ${isAddButtonDragging ? 'is-dragging' : ''}`}
         type="primary"
         icon={<PlusOutlined />}
         onClick={handleAddButtonClick}
