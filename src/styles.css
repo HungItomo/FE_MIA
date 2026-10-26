@@ -141,7 +141,9 @@ button, input, textarea { font-family: inherit; }
 .section-heading h3 { font-size: 18px; }
 .section-heading .ant-tag { margin: 0; border: 0; border-radius: 99px; padding: 4px 10px; font-size: 11px; font-weight: 700; }
 .desktop-add-button { box-shadow: 0 8px 14px rgba(55, 93, 80, .12); }
-.mobile-add-float { display: none; position: fixed !important; inset-inline-end: 16px !important; right: 16px !important; touch-action: manipulation; user-select: none; cursor: pointer; }
+.mobile-add-float { display: none; position: fixed !important; inset-inline-end: 16px !important; right: 16px !important; padding: 0 !important; line-height: 1 !important; touch-action: manipulation; user-select: none; cursor: pointer; }
+.mobile-add-float .ant-btn-icon,
+.mobile-add-float .anticon { display: inline-flex; align-items: center; justify-content: center; margin: 0 !important; line-height: 1 !important; }
 .journal-card .ant-card-body { min-height: 228px; }
 .state-box { display: grid; place-items: center; min-height: 180px; }
 .state-box .ant-spin-text { margin-top: 11px; color: #87928b; font-size: 12px; }
@@ -242,7 +244,7 @@ button, input, textarea { font-family: inherit; }
   .intro-side { width: 100%; }
   .date-card { width: 100%; }
   .desktop-add-button { display: none; }
-  .mobile-add-float { display: block; bottom: calc(10px + 52px + 12px + env(safe-area-inset-bottom, 0px)) !important; z-index: 1200; }
+  .mobile-add-float { display: flex !important; align-items: center; justify-content: center; bottom: calc(10px + 52px + 12px + env(safe-area-inset-bottom, 0px)) !important; z-index: 1200; }
   .milk-modal.ant-modal-root .ant-modal-wrap { display: flex; align-items: flex-end; }
   .milk-modal.ant-modal-root .ant-modal { top: 0; width: 100% !important; max-width: 100%; margin: 0; padding-bottom: 0; }
   .milk-modal .ant-modal-content { border-radius: 24px 24px 0 0; }
